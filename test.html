@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FocusRead Demo Article</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --paper: #fffdf9;
+      --text: #222;
+      --muted: #666;
+      --accent: #d97706;
+      --border: #e7dfd4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", sans-serif;
+      line-height: 1.8;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 22px;
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .top-links {
+      display: flex;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 760px) 280px;
+      gap: 28px;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .sidebar,
+    .rightbar {
+      align-self: start;
+      position: sticky;
+      top: 80px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 1rem;
+    }
+
+    .article {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 60px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+    }
+
+    .category {
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      line-height: 1.1;
+      margin: 0 0 24px;
+      letter-spacing: -0.04em;
+    }
+
+    .meta {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 320px;
+      border-radius: 20px;
+      margin-bottom: 42px;
+      background:
+        linear-gradient(135deg, rgba(0,0,0,0.2), rgba(0,0,0,0.05)),
+        url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop') center/cover;
+    }
+
+    .article p {
+      font-family: "Merriweather", serif;
+      font-size: 1.22rem;
+      margin-bottom: 2rem;
+      color: #2c2c2c;
+    }
+
+    .quote {
+      border-left: 4px solid var(--accent);
+      padding-left: 24px;
+      margin: 40px 0;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: #444;
+    }
+
+    .fake-ad {
+      background: linear-gradient(135deg, #fff7ed, #ffe4c7);
+      border: 1px dashed #f59e0b;
+      border-radius: 18px;
+      padding: 18px;
+      margin: 30px 0;
+      text-align: center;
+      font-weight: 700;
+      color: #92400e;
+    }
+
+    .newsletter {
+      background: #111827;
+      color: white;
+      padding: 28px;
+      border-radius: 22px;
+      margin-top: 40px;
+    }
+
+    .newsletter h3 {
+      margin-top: 0;
+    }
+
+    .newsletter input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      margin-top: 12px;
+      font-size: 1rem;
+    }
+
+    .newsletter button {
+      margin-top: 14px;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #f59e0b;
+      color: black;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    ul {
+      padding-left: 22px;
+      font-family: "Merriweather", serif;
+      font-size: 1.15rem;
+    }
+
+    li {
+      margin-bottom: 16px;
+    }
+
+    .floating-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: white;
+      border-radius: 999px;
+      padding: 14px 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      font-size: 0.92rem;
+      border: 1px solid var(--border);
+    }
+
+    @media (max-width: 1100px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar,
+      .rightbar {
+        display: none;
+      }
+
+      .article {
+        padding: 36px 24px;
+      }
+
+      h1 {
+        font-size: 2.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="logo">ModernReadingBlog</div>
+
+    <div class="top-links">
+      <span>Trending</span>
+      <span>Technology</span>
+      <span>Productivity</span>
+      <span>Subscribe</span>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="card">
+        <h3>Trending Topics</h3>
+        <p>AI tools are changing how people consume long-form content online.</p>
+      </div>
+
+      <div class="card">
+        <h3>Related Articles</h3>
+        <p>• Why modern websites feel exhausting</p>
+        <p>• The psychology of distraction online</p>
+        <p>• Can digital minimalism improve focus?</p>
+      </div>
+    </aside>
+
+    <main class="article">
+
+      <div class="category">Reading • Productivity</div>
+
+      <h1>FocusRead Reader Mode Helps You Focus</h1>
+
+      <div class="meta">
+        <span>8 min read</span>
+        <span>By Anindya</span>
+        <span>May 2026</span>
+      </div>
+
+      <div class="hero-image"></div>
+
+      <p>
+        Have you been struggling to read online?
+      </p>
+
+      <p>
+        Are the ads, sidebars, and popups ruining your reading experience to the point where you don't want to read anymore?
+      </p>
+
+      <div class="fake-ad">
+        🚨 LIMITED OFFER — Subscribe now to unlock premium reading productivity hacks!
+      </div>
+
+      <p>
+        Same here, and that's why I built the FocusRead Reader Mode.
+      </p>
+
+      <div class="quote">
+        “The modern web is full of distractions. Reading shouldn’t feel exhausting.”
+      </div>
+
+      <p>
+        With FocusRead Reader Mode PRO, you can auto-scroll and read hands-free.
+      </p>
+
+      <p>
+        You can focus on the specific line or paragraph you're currently reading with FocusLine.
+      </p>
+
+      <p>
+        And you can read faster with FocusBold.
+      </p>
+
+      <div class="fake-ad">
+        🍪 This website uses cookies, popups, notifications, and emotional manipulation.
+      </div>
+
+      <p>
+        Just like you're reading with your full focus right now.
+      </p>
+
+      <ul>
+        <li>Cleaner articles</li>
+        <li>Calmer reading experience</li>
+        <li>Reduced visual overload</li>
+        <li>Distraction-free browsing</li>
+      </ul>
+
+      <p>
+        So, why wait? Choose the FocusRead Reader Mode today!
+      </p>
+
+      <div class="newsletter">
+        <h3>Join 10,000+ readers</h3>
+        <p>Get weekly productivity and reading tips directly in your inbox.</p>
+
+        <input type="email" placeholder="Enter your email address" />
+        <button>Subscribe Now</button>
+      </div>
+
+    </main>
+
+    <aside class="rightbar">
+      <div class="card">
+        <h3>Popular This Week</h3>
+        <p>How people are reclaiming focus online.</p>
+      </div>
+
+      <div class="card">
+        <h3>Reader Poll</h3>
+        <p>Do modern websites make reading harder?</p>
+        <p><strong>Yes — 91%</strong></p>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="floating-widget">
+    🔔 Enable notifications?
+  </div>
+
+</body>
+</html>
